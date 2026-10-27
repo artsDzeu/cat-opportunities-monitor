@@ -15,10 +15,7 @@ from datetime import datetime, timezone
 HERE = os.path.dirname(os.path.abspath(__file__))
 STATE_FILE = os.path.join(HERE, "opportunities_state.json")
 SCAN_FILE = os.path.join(HERE, "latest_scan.json")
-OPPORTUNITIES_SCRIPT = os.path.join(
-    "/c/Users/User/AppData/Local/hermes/profiles/cat/scripts",
-    "opportunities.py",
-)
+OPPORTUNITIES_SCRIPT = os.path.join(HERE, "opportunities.py")
 
 
 def run_scan():
