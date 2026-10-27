@@ -1,0 +1,32 @@
+name: Cat Opportunities Monitor
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Every 6 hours
+  workflow_dispatch:
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run opportunity scanner
+        run: python scan_and_report.py
+
+      - name: Commit results if changed
+        run: |
+          git config user.name "Arts"
+          git config user.email "artsdzeu@gmail.com"
+          git add latest_scan.json opportunities_state.json
+          git diff --cached --quiet || git commit -m "chore: update opportunity scan [skip ci]"
+          git push
